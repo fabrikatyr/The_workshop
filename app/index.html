@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html data-ng-app="customersApp">
+<head>
+    <title>Workshop Manager</title>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="Content/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="Content/customerManagementStyles.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="navbar navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <a class="brand " href="#/">
+                    <img src="Content/Images/people.png" alt="logo"> Workshop Manager
+                </a>
+                <ul class="nav nav-pills" data-ng-controller="NavbarController">
+                    <li data-ng-class="{'active':getClass('/dashboard')}"><a href="#/dashboard">1.Dashboard</a></li>
+                    <li data-ng-class="{'active':getClass('/projects')}"><a href="#/projects">2.Projects</a></li>
+                    <li data-ng-class="{'active':getClass('/projectdetail')}"><a href="#/projectdetail">3.Project activities</a></li>
+                    <li data-ng-class="{'active':getClass('/activities')}"><a href="#/activities">4.Activities</a></li>
+                    <li data-ng-class="{'active':getClass('/materials')}"><a href="#/materials">5.Materials</a></li>
+                    <li data-ng-class="{'active':getClass('/custforecast')}"><a href="#/custforecast">6.Channel / customer forecast</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Note that AngularJS 1.1.4 now has a built-in ng-animation direction. Left in animated-view to show a 
+         custom directive -->
+    <div animated-view></div>
+
+
+    <div id="footer">
+        <div class="navbar navbar-fixed-bottom">
+            <div class="navbar-inner">
+                <div class="container">
+                    <footer>
+                        <div class="row">
+                            <div class="span4">
+                                Enabling Creativity
+                            </div>
+                            <div class="span4">
+                                Twitter: <a href="http://twitter.com/Fabrikatyr">@Fabrikatyr</a>
+                            </div>
+                            <div class="span4">
+                                Web: <a href="http://www.fabrikatyr.com">www.fabrikatyr.com</a>
+                            </div>
+                        </div>
+                   </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vendor Libs: jQuery only used for Bootstrap functionality -->
+	
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular-resource.min.js"></script>  
+	<script src="js/Scripts/jquery-1.10.2.min.js"></script>
+
+    <!-- UI Libs -->
+    <script src="js/Scripts/bootstrap.js"></script>
+    <script src="js/Scripts/angular-strap.min.js"></script>
+
+	<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
+>
+    <!-- <script src="js/Scripts/ui-bootstrap-tpls-0.5.0.js"></script> -->
+    <script src="js/Scripts/jsapi.js"></script>
+    <script src="js/Scripts/ng-google-chart.js"></script>
+
+
+    <!-- App libs -->
+    <script src="js/app.js"></script>
+	<script src="js/controllers/NavbarController.js"></script>
+	<script src="js/controllers/projectsController.js"></script>
+	<script src="js/controllers/projectEditController.js"></script>
+    <script src="js/controllers/materialsController.js"></script>
+    <script src="js/controllers/activityController.js"></script>
+    <script src="js/controllers/chartController.js"></script>
+    <script src="js/services/customersService.js"></script>
+    <!-- <script src="js/services/projectsService.js"></script> -->
+	<script src="js/services/projectsFactory.js"></script>
+	<!-- <script src="js/services/projectEdit.js"></script> -->
+	<script src="js/services/localStorage.js"></script>
+    <script src="js/services/materialsService.js"></script>
+    <script src="js/services/activitiesService.js"></script>
+    <script src="js/directives/animatedView.js"></script>
+
+
+<!-- legacy scripts
+<script src="js/controllers/CheckoutController.js"></script>
+<script src="js/controllers/CustomerController.js"></script>
+<script src="js/controllers/MenuController.js"></script>
+<script src="js/controllers/RestaurantsController.js"></script>
+<script src="js/controllers/ThankYouController.js"></script>
+<script src="js/directives/fmDeliverTo.js"></script>
+<script src="js/directives/fmCheckboxList.js"></script>
+<script src="js/directives/fmRating.js"></script>
+<script src="js/services/alert.js"></script>
+<script src="js/services/customer.js"></script>
+<script src="js/services/localStorage.js"></script>
+<script src="js/services/cart.js"></script>
+<script src="js/services/Restaurant.js"></script>
+
+-->
+</script>
+</body>
+</html>

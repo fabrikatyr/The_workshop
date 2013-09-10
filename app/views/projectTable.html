@@ -1,0 +1,115 @@
+﻿<table class="table table-hover table-striped table-condensed table-bordered ordersTable" data-ng-controller="projectChildController">
+    <thead>
+        <tr>
+            <th data-ng-click="setOrder('id')">Step number</th>
+            <th data-ng-click="setOrder('activity')">Activity</th>
+            <th data-ng-click="setOrder('material')">Material</th>
+            <th data-ng-click="setOrder('duration')">Duration</th>
+            <th data-ng-click="setOrder('costperhour')">Cost per hour</th>
+            <th data-ng-click="setOrder('totalcost')">Total cost</th>
+            <th data-ng-click="setOrder('deleteactivity')">Delete activity</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-hide="project.fabprocess || project.fabprocess.length > 0" class="error">
+            <td colspan="4">
+                <div class="text-center"><strong>No activities found</strong></div>
+            </td>
+        </tr>
+        <tr data-ng-repeat="fabprocess in project.fabprocess | orderBy:orderby:reverse">
+            <td>
+                {{ fabprocess.id }}
+            </td>
+            <td>
+                {{ fabprocess.process }}
+            </td>
+              <td>
+                {{ fabprocess.material }}
+            </td>
+            <td>
+                {{ fabprocess.duration }}
+            </td>
+            <td>
+                {{ fabprocess.costperhour| currency:"€" }}
+            </td>
+            <td>
+                {{ fabprocess.costperhour *(fabprocess.duration/60) | currency:"€" }}
+            </td>
+             <td>
+                <button class="btn close DeletecardClose" data-ng-click="deleteActivity(fabprocess.id)">&times;</button>
+            </td>
+
+        </tr>
+        <tr class="info">
+            <td colspan="5">
+             <b>Total Project Cost
+            </td>
+            <td>
+                <strong><i>€41.60 {{ ordersTotal | currency }}<i></strong>
+            </td>
+            
+        
+        </tr>
+        <td colspan="7">
+        
+        <div ng-controller="CollapseDemoCtrl">
+        <button class="btn" ng-click="isCollapsed = !isCollapsed">Add Another activity to process</button>
+    
+        <div class="well-large">
+    
+        <div collapse="!isCollapsed">
+        <div ng-controller="projectsController">
+            <div class="row cardContainer">
+            <div class="span3">
+                Activity step number
+                <br />
+                <input data-ng-model="newActivity.id" type="number">
+            </div>
+
+            <div class="span3">
+                Activity name
+                <br />
+                <input data-ng-model="newActivity.process" type="text" placeholder="Sanding, assembly etc." >
+            </div>
+            
+            <div class="span2">
+                Material used:
+                <br />
+                <input data-ng-model="newActivity.material" type="text" placeholder="wood, metal , NONE" ><br/>
+                
+             </div>
+            </div>
+
+            <div class="row cardContainer">
+            
+            <div class="span3">
+                Estimate time in minutes
+                <br />
+                <input data-ng-model="newActivity.duration" type="time">
+                
+            </div>
+            <div class="span3">
+                Estimated cost per hour:
+                <br />
+                <input data-ng-model="newActivity.costperhour" type="number">
+                {{newActivity.costperhour| currency:"€"}}
+            </div>
+            
+            <div class="span1.5">
+                <br>
+                <button id="submitActivity" class="btn btn-primary" type="button" 
+                    data-ng-disabled="!newActivity.id || !newActivity.process" || !newMaterial.currentstock" 
+                    data-ng-click="insertActivity()">Add Activity</button>
+               
+            </div>
+            </div>
+        </div>
+        
+        <div>
+            
+        </div>
+         </div>
+        
+        </tr>
+    </tbody>
+</table>

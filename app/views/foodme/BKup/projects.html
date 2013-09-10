@@ -1,0 +1,87 @@
+﻿<div class="projects view">
+    
+	<div class="container" ng-controller="projectEditController">
+    
+            <h3>Projects</h3>
+			<div class="row cardContainer">
+                <div class="span3 card" data-ng-repeat="project in projects">
+                    <button class="btn close cardClose" data-ng-click="deleteproject(project.id)">&times;</button>
+                    <div class="cardHeader">{{project.projectName + ' ' + project.duedate}}</div>
+                    <div class="cardBody">Unit quantity <b>{{project.unitquantity}}</b></div>
+                    <div class="cardBody">Expected revenue <b><i>{{project.unitquantity*project.unitprice| currency:"€"}}</b/></i></div>
+                   
+                 </div>-->		
+			</div>
+	 
+			<div class="span3">
+			<div class= "container" ng-controller="projectEditController">
+   
+			<button class="btn" ng-click="isCollapsed = !isCollapsed">Add Another Project</button>
+    
+			<div class="well-large">
+    
+			<div collapse="!isCollapsed">
+	
+    
+            <div class="row cardContainer">
+				<div class="span3">
+					Project Name:
+					<br />
+					<input data-ng-model="newProject.projectName" type="text" placeholder="Project Name">
+				</div>
+
+				<div class="span3">
+					Unit Quantity:
+					<br />
+					<input data-ng-model="newProject.unitquantity" type="number" >
+				</div>
+				
+				<div class="span3">
+					Unit Price:
+					<br />
+					<input data-ng-model="newProject.unitprice" type="number" ><br/>
+					{{newProject.unitprice| currency:"€"}}   
+				</div>
+            </div>
+
+            <div class="row cardContainer">
+            
+				<div class="span3">
+					Start date:
+					<br />
+					<input data-ng-model="newProject.startdate" type="date">
+				</div>
+				<div class="span3">
+					Due Date:
+					<br />
+					<input data-ng-model="newProject.duedate" type="date" >
+				</div>
+				
+				<div class="span3">
+					<br>
+					<button id="submitproject" class="btn btn-primary" type="button" 
+						data-ng-disabled="!newProject.projectName || !newProject.unitquantity || !newProject.unitprice" 
+						data-ng-click="addProject()">Add project</button>
+				   
+					</div>
+					</div>
+					</div>
+					<br /><br />
+				<div>
+            
+				</div>
+    
+			</div>
+		</div>
+    <div class="container">
+    
+    
+        <div class="row cardContainer">
+    
+			<div data-ng-controller="projectcostChart">
+			<div google-chart chart="chart" style="{{chart.cssStyle}}"/>
+        </div>
+        </div>
+        </div>
+        
+</div>
