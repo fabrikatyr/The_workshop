@@ -9,39 +9,35 @@
 								<div class="span3">
 									Project Name:
 									<br />
-									<input data-ng-model="project.projectName" type="text" placeholder='{{projects.projectName}}'>
+									<input data-ng-model="projectEdit.projectName" type="text">
 								</div>
 
 								<div class="span3">
 									Unit Quantity:
 									<br />
-									<input data-ng-model="newProject.unitquantity" type="number" placeholder='{{projects.unitquantity}}'>
+									<input data-ng-model="projectEdit.unitquantity" type="number" >
 								</div>
 								
 								<div class="span3">
 									Unit Price:
 									<br />
-									<input data-ng-model="newProject.unitprice" type="number" placeholder='{{projects.unitprice}}'> <br/>
+									<input data-ng-model="projectEdit.unitprice" type="number"> <br/>
 									{{newProject.unitprice| currency:"€"}}   
 								</div>
-						</div>
+						
 						<!--div for 2nd row cards -->
-						<div class="row cardContainer">
+						
             
 								<div class="span3">
 									Start date:
 									<br />
-									<input data-ng-model="newProject.startdate" type="number" placeholder='{{projects.startdate}}'>
+									<input data-ng-model="projectEdit.startdate" type="date" >
 								</div>
-								<div class="span3">
-									Label:
-									<br />
-									<input data-ng-model="newProject.label" type="number" placeholder='{{projects.label}}'>
-								</div>
+						
 								<div class="span3">
 									Due Date:
 									<br />
-									<input data-ng-model="newProject.duedate" type="number" placeholder='{{projects.duedate}}'> 
+									<input data-ng-model="projectEdit.duedate" type="date" > 
 								</div>
 								
 						</div>
@@ -49,9 +45,11 @@
         </div>
 			
 	   <div class="modal-footer">
-            <button class="btn btn-success" ng-click="ok()"><i class="icon-white icon-check"></i> Update project</button>
+            <button class="btn btn-success" ng-click="ok(projectEdit)"><i class="icon-white icon-check"></i> Update project</button>
             <button class="btn btn-warning" ng-click="cancel()"><i class="icon-white icon-off"></i> Cancel edits</button>
-			<button title = "Delete project" class="btn btn-danger btn-mini" ng-click="delete()"><i class="icon-white icon-trash"></i> </button>
+			
+				<button title = "Delete project" class="btn btn-danger btn-mini" ng-click="del(project.label)"><i class="icon-white icon-trash"></i> </button>
+			
         </div>
 	
  
