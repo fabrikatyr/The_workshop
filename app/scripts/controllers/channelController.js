@@ -12,74 +12,177 @@
   #######################################################################*/
 
 
-//This controller retrieves data from the customersService and associates it with the $scope
-//The $scope is ultimately bound to the customers view
-app.controller('CustomersController', function ($scope, customersService) {
+//This controller retrieves data from the projectsService and associates it with the $scope
+//The $scope is ultimately bound to the projects view
+app.controller('channelController', function projectsController($scope,$modal,projectsFactory,$http,$resource,$log,deleteID){
+	
+	$scope.projects = 	projectsFactory.query();
 
-    //I like to have an init() for controllers that need to perform some initialization. Keeps things in
-    //one place...not required though especially in the simple example below
-    init();
+	$scope.update = function(){
+    $scope.projects = 	projectsFactory.query();
+	}
+	
+	$scope.del = function (id){
+		deleteID.setProperty(id);
+		
+		var modalDelete =   $modal.open({
+				templateUrl: '/views/projectDelete.html',
+				controller: deleteModalController,
+				resolve: {
+						modalresolve: function () {
+						return $scope.projects;
+						}
+				}
+				
+		  
+			});
+			modalDelete.result.then(function (deleteproject) {
+			}, function () {
+			$log.info('Modal dismissed at: ' + new Date());
+			});   
+	};
+	
+	
+	var deleteModalController = function ($scope, $modalInstance,modalresolve,deleteID) {
+		$scope.projects = modalresolve;
+	$scope.projectdelete = modalresolve;
+		var id = deleteID.getProperty();
+		
+		
+		$scope.selected = {
+		
+		project: $scope.projects[id]
+		};
+		
+	
 
-    function init() {
-        $scope.customers = customersService.getCustomers();
-    }
+		$scope.remove = function () {
+			var id = deleteID.getProperty();
+			$scope.projects = modalresolve;
+			var API_URL = '/api/project/' + id;
+			$scope.projects.splice( id, 1 ); 		
+			$modalInstance.close(	
+					$http({
+						method: 'DELETE',
+						url:API_URL,
+						data: { id:  id } 
+					})
+					.success(function(){
+					
+					})
+				);
+			};
+		
+		$scope.cancel = function () {
+			$modalInstance.dismiss('cancel');
+		};
+	};
+	
+	
+	 
+	
+	$scope.edit = function (id) {
+	
+		var modalInstance =   $modal.open({
+			templateUrl: '/views/projectEdit.html',
+			controller: editModalController,
+			resolve: {
+						projects: function () {
+						return $scope.projects[id];
+						}
+				}
+		});
 
-    $scope.insertCustomer = function () {
-        var firstName = $scope.newCustomer.firstName;
-        var lastName = $scope.newCustomer.lastName;
-        var city = $scope.newCustomer.city;
-        customersService.insertCustomer(firstName, lastName, city);
-        $scope.newCustomer.firstName = '';
-        $scope.newCustomer.lastName = '';
-        $scope.newCustomer.city = '';
-    };
+		modalInstance.result.then(function (projects) {
+		}, function () {
+		$log.info('Modal dismissed at: ' + new Date());
+		});
+  };
 
-    $scope.deleteCustomer = function (id) {
-        customersService.deleteCustomer(id);
-    };
+
+var editModalController = function ($scope, $modalInstance,projects) {
+	$scope.projects = projects;
+	$scope.projectEdit = projects;
+		$scope.selected = {
+		projectEdit: $scope.projects
+		};
+
+	$scope.ok = function () {
+		var API_URL = '/api/project/' + $scope.projects.id;
+		$modalInstance.close(
+			  $http({
+						method: 'PUT',
+						url: API_URL,
+						data: JSON.stringify( {
+						label : $scope.projectEdit.label,
+						projectName: $scope.projectEdit.projectName,
+						unitquantity: $scope.projectEdit.unitquantity, 
+						unitprice: $scope.projectEdit.unitprice, 
+						duedate: $scope.projectEdit.duedate, 
+						startdate: $scope.projectEdit.startdate
+						} ),
+						headers: {'Content-Type': 'application/json'}
+					})
+					.success(function(){			   
+					})
+		);    
+	};
+	
+	$scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+	};
+	
+
+};
+    
+
+	
+ }); 
+
+app.service('deleteID', function(){
+  var id= null;
+
+        return {
+            getProperty: function () {
+                
+				return id;
+            },
+            setProperty: function(value) {
+                id = value;
+				
+            }
+        };
+    });
+
+ 
+ 
+ 
+app.controller('CollapseDemoCtrl',function ($scope) {
+  $scope.isCollapsed = false;
 });
 
-//This controller retrieves data from the customersService and associates it with the $scope
-//The $scope is bound to the order view
-app.controller('CustomerOrdersController', function ($scope, $routeParams, customersService) {
-    $scope.customer = {};
-    $scope.ordersTotal = 0.00;
 
-    //I like to have an init() for controllers that need to perform some initialization. Keeps things in
-    //one place...not required though especially in the simple example below
-    init();
-
-    function init() {
-        //Grab customerID off of the route        
-        var customerID = ($routeParams.customerID) ? parseInt($routeParams.customerID) : 0;
-        if (customerID > 0) {
-            $scope.customer = customersService.getCustomer(customerID);
-        }
-    }
-
-});
-
-//This controller retrieves data from the customersService and associates it with the $scope
+//This controller retrieves data from the projectsService and associates it with the $scope
 //The $scope is bound to the orders view
-app.controller('OrdersController', function ($scope, customersService) {
-    $scope.customers = [];
+app.controller('projectdetailController', function ($scope, projectsFactory) {
+    $scope.projects = [];
 
     //I like to have an init() for controllers that need to perform some initialization. Keeps things in
     //one place...not required though especially in the simple example below
     init();
 
     function init() {
-        $scope.customers = customersService.getCustomers();
+        $scope.projects = projectsFactory;
     }
 });
 
 
 
 //This controller is a child controller that will inherit functionality from a parent
-//It's used to track the orderby parameter and ordersTotal for a customer. Put it here rather than duplicating 
+//It's used to track the orderby parameter and ordersTotal for a Project. Put it here rather than duplicating 
 //setOrder and orderby across multiple controllers.
-app.controller('OrderChildController', function ($scope) {
-    $scope.orderby = 'product';
+app.controller('projectChildController', function ($scope) {
+    $scope.orderby = 'id';
     $scope.reverse = false;
     $scope.ordersTotal = 0.00;
 
@@ -88,11 +191,12 @@ app.controller('OrderChildController', function ($scope) {
     function init() {
         //Calculate grand total
         //Handled at this level so we don't duplicate it across parent controllers
-        if ($scope.customer && $scope.customer.orders) {
+        if ($scope.project && $scope.project.fabprocess) {
             var total = 0.00;
-            for (var i = 0; i < $scope.customer.orders.length; i++) {
-                var order = $scope.customer.orders[i];
-                total += order.orderTotal;
+            for (var i = 0; i < $scope.project.fabprocess.length; i++) {
+                var costtotal = $scope.project.fabprocess[i].costperhour*$scope.project.fabprocess[i].duration;
+                
+                total += costtotal.orderTotal;
             }
             $scope.ordersTotal = total;
         }

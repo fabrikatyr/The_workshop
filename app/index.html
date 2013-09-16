@@ -2,9 +2,9 @@
 <html data-ng-app="customersApp">
 <head>
     <title>Workshop Manager</title>
-    <link href="Content/bootstrap.min.css" rel="stylesheet" />
-    <link href="Content/bootstrap-responsive.min.css" rel="stylesheet" />
-    <link href="Content/customerManagementStyles.css" rel="stylesheet" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="css/customerManagementStyles.css" rel="stylesheet" />
 </head>
 <body>
 
@@ -12,16 +12,15 @@
         <div class="navbar-inner">
             <div class="container">
                 <a class="brand " href="#/">
-                    <img src="Content/Images/people.png" alt="logo"> Workshop Manager
+                    <img src="/img/people.png" alt="logo"> Workshop Manager
                 </a>
-                <ul class="nav nav-pills" data-ng-controller="NavbarController">
+                <ul class="nav nav-pills dropdown" data-ng-controller="NavbarController">
                     <li data-ng-class="{'active':getClass('/dashboard')}"><a href="#/dashboard">1.Dashboard</a></li>
                     <li data-ng-class="{'active':getClass('/projects')}"><a href="#/projects">2.Projects</a></li>
                     <li data-ng-class="{'active':getClass('/projectdetail')}"><a href="#/projectdetail">3.Project activities</a></li>
-                    <li data-ng-class="{'active':getClass('/activities')}"><a href="#/activities">4.Activities</a></li>
-                    <li data-ng-class="{'active':getClass('/materials')}"><a href="#/materials">5.Materials</a></li>
-                    <li data-ng-class="{'active':getClass('/custforecast')}"><a href="#/custforecast">6.Channel / customer forecast</a></li>
-                    
+                    <!-- <li data-ng-class="{'active':getClass('/activities')}"><a href="#/activities">4.Activities</a></li> -->
+                     <li data-ng-class="{'active':getClass('/materials')}"><a href="#/materials">4.Materials</a></li>                    <li data-ng-class="{'active':getClass('/channel')}"><a href="#/channel">5.Channel pricing</a></li>
+                    <li data-ng-class="{'active':getClass('/forecast')}"><a href="#/forecast">6.Business forecasting
                 </ul>
             </div>
         </div>
@@ -66,7 +65,7 @@
 
 	<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.6.0.js"></script>
 >
-    <!-- <script src="js/Scripts/ui-bootstrap-tpls-0.5.0.js"></script> -->
+    <!-- <script src="scripts/Scripts/ui-bootstrap-tpls-0.5.0.js"></script> -->
     <script src="assets/Scripts/jsapi.js"></script>
     <script src="assets/Scripts/ng-google-chart.js"></script>
 
@@ -79,6 +78,7 @@
     <script src="scripts/controllers/materialsController.js"></script>
     <script src="scripts/controllers/activityController.js"></script>
     <script src="scripts/controllers/chartController.js"></script>
+	<script src="scripts/controllers/channelController.js"></script>
     <script src="scripts/services/customersService.js"></script>
     <!-- <script src="js/services/projectsService.js"></script> -->
 	<script src="scripts/services/projectsFactory.js"></script>

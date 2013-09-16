@@ -1,64 +1,69 @@
-﻿<table class="table table-hover table-striped table-condensed table-bordered ordersTable" data-ng-controller="projectChildController">
+﻿<table class="table table-hover table-striped table-condensed table-bordered ordersTable" >
     <thead>
         <tr>
-            <th data-ng-click="setOrder('id')">Step number</th>
-            <th data-ng-click="setOrder('activity')">Activity</th>
-            <th data-ng-click="setOrder('material')">Material</th>
-            <th data-ng-click="setOrder('duration')">Duration</th>
-            <th data-ng-click="setOrder('costperhour')">Cost per hour</th>
-            <th data-ng-click="setOrder('totalcost')">Total cost</th>
-            <th data-ng-click="setOrder('deleteactivity')">Delete activity</th>
+            <th data-ng-click="setOrder('channel')">Channel Name</th>
+            <th data-ng-click="setOrder('saleprice')">Sales price</th>
+            <th data-ng-click="setOrder('margin')">% margin</th>
+            <th data-ng-click="setOrder('volume')">Volume</th>
+            <th data-ng-click="setOrder('costperhour')">Revenue</th>
+            <th data-ng-click="setOrder('totalcost')">Channel cost of sale </n>(commission etc.)</th>
+            <th data-ng-click="setOrder('deleteactivity')">Expected profit</th>
         </tr>
     </thead>
     <tbody>
-        <tr data-ng-hide="project.fabprocesses || project.fabprocesses.length > 0" class="error">
+        <tr data-ng-hide="project.channels || project.channels.length > 0" class="error">
             <td colspan="4">
-                <div class="text-center"><strong>No activities found</strong></div>
+                <div class="text-center"><strong>No channels selected to sell this project</strong></div>
             </td>
         </tr>
-        <tr data-ng-repeat="fabprocess in project.fabprocesses | orderBy:orderby:reverse">
+        <tr data-ng-repeat="channel in project.channels ">
             <td>
-                {{ fabprocess.id }}
+                {{ channel.name }}
             </td>
             <td>
-                {{ fabprocess.process }}
+			<input data-ng-model="channel.salesprice" type="number" placeholder="€3.00">
             </td>
               <td>
-                {{ fabprocess.material }}
+                <input data-ng-model="channel.margin" type="number" placeholder="20%">
             </td>
             <td>
-                {{ fabprocess.duration }}
+                <input data-ng-model="channel.volume" type="number" placeholder="200">
             </td>
             <td>
-                {{ fabprocess.costperhour| currency:"€" }}
+                €600{{ channel.volume*channelsalesprice| currency:"€" }}
             </td>
             <td>
-                {{ fabprocess.costperhour *(fabprocess.duration/60) | currency:"€" }}
+                <input data-ng-model="channel.commission" type="number" placeholder="5%">
             </td>
              <td>
-                <button class="btn close DeletecardClose" data-ng-click="deleteActivity(fabprocess.id)">&times;</button>
+                €120{{ channel.volume*channel.salesprice*channel.margin| currency:"€" }}
             </td>
 
         </tr>
         <tr class="info">
-            <td colspan="5">
-             <b>Total Project Cost
+            <td colspan="4">
+             <b>Total forecast revenue
             </td>
             <td>
-                <strong><i>€41.60 <i></strong>
+                <strong><i>€1800 {{ ordersTotal | currency }}<i></strong>
             </td>
-            
+            <td colspan="1">
+             <b>Total forecast profit
+            </td>
+            <td>
+                <strong><i>€720 {{ ordersTotal | currency }}<i></strong>
+            </td>
         
         </tr>
         <td colspan="7">
         
         <div ng-controller="CollapseDemoCtrl">
-        <button class="btn" ng-click="isCollapsed = !isCollapsed">Add Another activity to process</button>
+        <button class="btn" ng-click="isCollapsed = !isCollapsed">Add Another channel to project</button>
     
         <div class="well-large">
     
         <div collapse="!isCollapsed">
-        <div ng-controller="projectsController">
+        
             <div class="row cardContainer">
             <div class="span3">
                 Activity step number
@@ -105,10 +110,10 @@
             </div>
         </div>
         
-        <div>
+        
             
+        
         </div>
-         </div>
         
         </tr>
     </tbody>

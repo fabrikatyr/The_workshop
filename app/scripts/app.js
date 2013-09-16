@@ -7,19 +7,10 @@
   http://weblogs.asp.net/dwahlin
   http://pluralsight.com/training/Authors/Details/dan-wahlin
 
-  Normally like to break AngularJS apps into the following folder structure
-  at a minimum:
-
-  /app
-      /controllers      
-      /directives
-      /services
-      /partials
-      /views
 
   #######################################################################*/
 
-var app = angular.module('customersApp', ['ngResource','ui.bootstrap','google-chart-sample','material-chart','revenue-chart']);
+var app = angular.module('customersApp', ['ngResource','ui.bootstrap','google-chart-sample','material-chart','revenue-chart','projectRev','projectProfit','forecast-Chart',,'channel-RevALTJ',,'channel-ProfitALTJ']);
 
 //This configures the routes and associates each route with a view and a controller
 app.config(function ($routeProvider) {
@@ -42,16 +33,26 @@ app.config(function ($routeProvider) {
             })
          .when('/projectdetail',
             {
-                controller: 'projectdetailController',
+                controller: 'projectsController',
                 templateUrl: '/views/projectdetail.html'
             })
          .when('/dashboard',
             {
 				controller: 'projectdetailController',
-				controller: 'projectdetailController',
+			
                 templateUrl: '/views/dashboard.html'
             })
-        .otherwise({ redirectTo: '/projects' });
+			.when('/channel',
+            {
+				controller: 'channelController',
+                templateUrl: '/views/channelPricing.html'
+            })
+			.when('/forecast',
+            {
+				controller: 'projectsController',
+                templateUrl: '/views/forecast.html'
+            })
+        .otherwise({ redirectTo: '/dashboard' });
 });
 
 

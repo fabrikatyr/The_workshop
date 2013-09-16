@@ -10,7 +10,7 @@ angular.module('revenue-chart', ['googlechart.directives']).controller("revenueC
     var chart1 = {};
     chart1.type = "AreaChart";
     chart1.displayed = false;
-    chart1.cssStyle = "height:400px; width:100%;";
+    chart1.cssStyle = "height:300px; width:100%;";
     chart1.data = {"cols": [
         {id: "month", label: "Month", type: "date"},
         {id: "revenue-id", label: "Revenue", type: "number"},
@@ -76,7 +76,7 @@ angular.module('material-chart', ['googlechart.directives']).controller("materia
    var chart1 = {};
     chart1.type = "PieChart";
     chart1.displayed = false;
-    chart1.cssStyle = "height:400px; width:100%;";
+    chart1.cssStyle = "height:300px; width:100%;";
     chart1.data = {"cols": [
         {id: "material", label: "Material", type: "string"},
         {id: "materialvalue", label: "materialvalue", type: "number"},
@@ -131,7 +131,7 @@ angular.module('google-chart-sample', ['googlechart.directives']).controller("pr
    var chart1 = {};
     chart1.type = "ColumnChart";
     chart1.displayed = false;
-    chart1.cssStyle = "height:400px; width:100%;";
+    chart1.cssStyle = "height:300px; width:100%;";
 chart1.data = {"cols": [
         {id: "month", label: "Project", type: "string"},
         {id: "revenue-id", label: "Design", type: "number"},
@@ -189,6 +189,367 @@ chart1.data = {"cols": [
     }
 
 });
+
+angular.module('projectRev', ['googlechart.directives']).controller("projectRev", function ($scope) {
+
+   var chart1 = {};
+    chart1.type = "PieChart";
+    chart1.displayed = false;
+    chart1.cssStyle = "height:300px; width:100%;";
+chart1.data = {"cols": [
+        {id: "yaxis", label: "type", type: "string"},
+        {id: "retail", label: "Retail", type: "number"},
+        {id: "consumerDirect", label: "ConsumerDirect", type: "number"},
+		{id: "businessDirect", label: "businessDirect", type: "number"},
+		{id: "commissioned", label: "commissioned", type: "number"},
+        {id: "web", label: "Web", type: "number"}
+    ], "rows": [
+        {c: [
+            {v: "Retail"},
+            {v: 19, f: "42 items"}
+            
+        ]},
+        {c: [
+            {v: "Consumer Direct"},
+            {v: 13},
+            
+        ]},
+		{c: [
+            {v: "Business Direct"},
+            {v: 13},
+            
+        ]},{c: [
+            {v: "Commissioned"},
+            {v: 13},
+            
+        ]},
+        {c: [
+            {v: "Web"},
+            {v: 24}
+            
+
+        ]}
+        
+    ]};
+
+    chart1.options = {
+        "title": "Revenue by channel",
+		"position":"center",
+        "isStacked": "true",
+        "fill": 20,
+        "displayExactValues": true,
+		"legend": 'none',
+        "vAxis": {
+            "title": "EUR €", "gridlines": {"count": 10}
+        },
+        "hAxis":{"title": ""}
+    };  
+
+    $scope.chart = chart1;
+
+    $scope.hideServer = false;
+    $scope.selectionChange = function () {
+        if($scope.hideServer) {
+            $scope.chart.view = {columns: [0,1,2]};
+        } else {
+            $scope.chart.view = {};
+        }
+    }
+
+});
+
+angular.module('projectProfit', ['googlechart.directives']).controller("projectProfit", function ($scope) {
+
+   var chart1 = {};
+    chart1.type = "ColumnChart";
+    chart1.displayed = false;
+    chart1.cssStyle = "height:300px; width:100%;";
+chart1.data = {"cols": [
+        {id: "yaxis", label: "type", type: "string"},
+        {id: "retail", label: "Retail", type: "number"},
+        {id: "consumerDirect", label: "ConsumerDirect", type: "number"},
+		{id: "businessDirect", label: "businessDirect", type: "number"},
+		{id: "commissioned", label: "commissioned", type: "number"},
+        {id: "web", label: "Web", type: "number"}
+    ], "rows": [
+        {c: [
+            {v: "Actual"},
+            {v: 20},
+            {v: 10},
+            {v: 5},
+			{v: 5},
+			{v: 5}
+        ]},
+        {c: [
+            {v: "Forecast"},
+            {v: 5},
+            {v: 10},
+            {v: 5},
+			{v: 5},
+			{v: 20}
+        ]}
+    ]};
+
+    chart1.options = {
+        "title": "Profit Forecast v Actual by channel",
+        
+		"isStacked": "true",
+        "fill": 20,
+        "displayExactValues": true,
+		"legend": 'none',
+        "vAxis": {
+            "title": "EUR €", "gridlines": {"count": 10}
+        },
+        "hAxis":{"title": ""}
+    };  
+
+    $scope.chart = chart1;
+
+    $scope.hideServer = false;
+    $scope.selectionChange = function () {
+        if($scope.hideServer) {
+            $scope.chart.view = {columns: [0,1,2]};
+        } else {
+            $scope.chart.view = {};
+        }
+    }
+
+});
+
+
+angular.module('forecast-Chart', ['googlechart.directives']).controller("forecastChart", function ($scope) {
+
+    var chart1 = {};
+    chart1.type = "LineChart";
+    chart1.displayed = false;
+    chart1.cssStyle = "height:300px; width:100%;";
+    chart1.data = {"cols": [
+        {id: "month", label: "Month", type: "date"},
+        {id: "forecast-id", label: "Forecast Revenue", type: "number"},
+        {id: "actual-id", label: "Actual Revenue", type: "number"},
+        {id: "costfcast", label: "Cost Forecast delta", type: "number"}
+    ], "rows": [
+        {c: [
+            {v: "Date(2013,8,27)"},
+            {v: 19},
+            {v: 12},
+            {v: -7}
+        ]},
+        {c: [
+            {v: "Date(2013,8,28)"},
+            {v: 13},
+            {v: 1, },
+            {v: 12}
+        ]},
+		{c: [
+            {v: "Date(2013,8,29)"},
+            {v: 15},
+            {v: 11},
+            {v: -4}
+        ]},
+		{c: [
+            {v: "Date(2013,8,30)"},
+            {v: 11},
+            {v: 15},
+            {v: 7}
+        ]},
+        {c: [
+            {v: "Date(2013,8,31)"},
+            {v: 24},
+            {v: 5},
+            {v: -11}
+
+        ]}
+    ]};
+
+    chart1.options = {
+        
+        "isStacked": "true",
+        "fill": 20,
+        "displayExactValues": true,
+		"legend" :{"position":'right'},
+		"chartArea":{"left":20,"top":0,"width":"50%","height":"95%"},
+        "vAxes": {0:{
+				"title": "€ EUR", "gridlines": {"count": 10}},
+				1:{
+				"title": "Cost Forecast delta", "gridlines": {"count": 10}}
+        },
+        "hAxis": {
+            "title": "Date"
+        },
+		"series":{
+                0:{"type": "line","targetAxisIndex":0},
+                1:{"type": "line","targetAxisIndex":0},
+                2:{"type": "bars","targetAxisIndex":0}
+            }
+        };
+    
+
+    $scope.chart = chart1;
+
+    $scope.hideServer = false;
+    $scope.selectionChange = function () {
+        if($scope.hideServer) {
+            $scope.chart.view = {columns: [0,1,2]};
+        } else {
+            $scope.chart.view = {};
+        }
+    }
+
+});
+
+angular.module('channel-RevALTJ', ['googlechart.directives']).controller("channelRevALTJ", function ($scope) {
+
+   var chart1 = {};
+    chart1.type = "BarChart";
+    chart1.displayed = true;
+    chart1.cssStyle = "height:300px; width:100%;";
+chart1.data = {
+	"cols": [
+			{id: "channel", 
+			label: "channel", 
+			type: "string"
+			},
+			{id: "value", 
+			label: "value", 
+			type: "number"
+			}
+	], 
+	"rows": [
+        {
+		"c": [
+            {v: "Retail"},
+            {v: 20 }
+        ]},
+		
+		{
+		"c": [
+            {v: "Consumer"},
+            {v: -10 }
+        ]},
+		{
+		"c": [
+            {v: "B2B"},
+            {v: 10 }
+        ]},
+		{
+		"c": [
+            {v: "Web"},
+            {v: 5 }
+        ]},
+		{
+		"c": [
+            {v: "Market stall"},
+            {v: 0 }
+        ]}
+    ]
+};
+
+ chart1.options = {
+        
+     "isStacked": "true",		
+		"chartArea":{"left":20,"top":0,"width":"50%","height":"95%"},
+        "fill": 20,
+		"legend" : "none",
+        "displayExactValues": true,	
+        "vAxis": {"textPosition" :"in","textStyle":{"fontsize":3},
+            "title": "Channel"
+		},
+        "hAxis":{
+			"title": "EUR €"},
+		"colors":[ "89CCC9"]
+	};
+	
+	
+    $scope.chart = chart1;
+
+    $scope.hideServer = false;
+    $scope.selectionChange = function () {
+        if($scope.hideServer) {
+            $scope.chart.view = {columns: [0,1,2]};
+        } else {
+            $scope.chart.view = {};
+        }
+    }
+
+});
+
+
+angular.module('channel-ProfitALTJ', ['googlechart.directives']).controller("channelProfitALTJ", function ($scope) {
+
+   var chart1 = {};
+    chart1.type = "BarChart";
+    chart1.displayed = true;
+    chart1.cssStyle = "height:300px; width:100%;";
+chart1.data = {
+	"cols": [
+			{id: "channel", 
+			label: "channel", 
+			type: "string"
+			},
+			{id: "value", 
+			label: "value", 
+			type: "number"
+			}
+	], 
+	"rows": [
+        {
+		"c": [
+            {v: "Retail"},
+            {v: -10 }
+        ]},
+		
+		{
+		"c": [
+            {v: "Consumer"},
+            {v: 10 }
+        ]},
+		{
+		"c": [
+            {v: "B2B"},
+            {v: 0 }
+        ]},
+		{
+		"c": [
+            {v: "Web"},
+            {v: -5 }
+        ]},
+		{
+		"c": [
+            {v: "Market stall"},
+            {v: -3 }
+        ]}
+    ]
+};
+
+ chart1.options = {
+        
+        "isStacked": "true",		
+		"chartArea":{"left":20,"top":0,"width":"50%","height":"95%"},
+        "fill": 20,
+		"legend" : "none",
+        "displayExactValues": true,	
+        "vAxis": {"textPosition" :"in","textStyle":{"fontsize":3},
+            "title": "Channel"
+		},
+        "hAxis":{
+			"title": "EUR €"}
+	};
+	
+	
+    $scope.chart = chart1;
+
+    $scope.hideServer = false;
+    $scope.selectionChange = function () {
+        if($scope.hideServer) {
+            $scope.chart.view = {columns: [0,1,2]};
+        } else {
+            $scope.chart.view = {};
+        }
+    }
+
+});
+
 
 
 
