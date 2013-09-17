@@ -10,7 +10,7 @@
             <th data-ng-click="setOrder('unitcost')">Unit cost</th>
             <th data-ng-click="setOrder('currentstock')">Current stock</th>
             <th data-ng-click="setOrder('currentstock')">Current value</th>
-            <th data-ng-click="setOrder('deletematerial')">Delete Material</th>
+            <th data-ng-click="setOrder('deletematerial')"></th>
         </tr>
     </thead>
     <tbody>
@@ -38,8 +38,10 @@
              <td>
                 {{ material.currentstock*material.unitcost | currency :"€" }}
             </td>
-            <td>
-            <button class="btn close DeletecardClose" data-ng-click="deleteMaterial(material.id)">&times;</button>
+            <td align="left">
+            		<button title = "Delete project" class="btn close cardClose" data-ng-click="del($index)"><i class ="icon-trash"></i></button>
+					
+					<button title = "Edit project" class="btn close cardClose" data-ng-click="edit($index)"><i class ="icon-pencil"></i></button>
             </td>
         </tr>
         <tr class="info">
@@ -49,7 +51,7 @@
             </td>
             <td>
             
-                <strong>€8,000.00{{ stockTotal | currency:"€" }}</strong>
+                <strong>{{ stockTotal | currency:"€" }}</strong>
 
             </td>
 

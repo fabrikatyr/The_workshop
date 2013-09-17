@@ -49,7 +49,7 @@ app.config(function ($routeProvider) {
             })
 			.when('/forecast',
             {
-				controller: 'projectsController',
+				//controller: 'projectsController',
                 templateUrl: '/views/forecast.html'
             })
         .otherwise({ redirectTo: '/dashboard' });

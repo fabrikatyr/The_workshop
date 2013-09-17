@@ -21,22 +21,22 @@
                 {{ channel.name }}
             </td>
             <td>
-			<input data-ng-model="channel.salesprice" type="number" placeholder="€3.00">
+			<input data-ng-model="channel.salesprice" >
             </td>
               <td>
-                <input data-ng-model="channel.margin" type="number" placeholder="20%">
+                <input data-ng-model="channel.margin" >
             </td>
             <td>
-                <input data-ng-model="channel.volume" type="number" placeholder="200">
+                <input data-ng-model="channel.volume" >
             </td>
             <td>
-                €600{{ channel.volume*channelsalesprice| currency:"€" }}
+                {{ channel.volume*channelsalesprice| currency:"€" }}
             </td>
             <td>
-                <input data-ng-model="channel.commission" type="number" placeholder="5%">
+                <input data-ng-model="channel.commission">
             </td>
              <td>
-                €120{{ channel.volume*channel.salesprice*channel.margin| currency:"€" }}
+                {{ channel.volume*channel.salesprice*channel.margin| currency:"€" }}
             </td>
 
         </tr>
@@ -45,13 +45,13 @@
              <b>Total forecast revenue
             </td>
             <td>
-                <strong><i>€1800 {{ ordersTotal | currency }}<i></strong>
+                <strong><i> {{ ordersTotal | currency }}<i></strong>
             </td>
             <td colspan="1">
              <b>Total forecast profit
             </td>
             <td>
-                <strong><i>€720 {{ ordersTotal | currency }}<i></strong>
+                <strong><i>{{ ordersTotal | currency }}<i></strong>
             </td>
         
         </tr>

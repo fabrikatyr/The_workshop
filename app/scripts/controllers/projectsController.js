@@ -23,6 +23,7 @@ app.controller('projectsController', function projectsController($scope,$modal,p
 	}
 	
 	$scope.del = function (id){
+		
 		deleteID.setProperty(id);
 		
 		var modalDelete =   $modal.open({
@@ -36,7 +37,7 @@ app.controller('projectsController', function projectsController($scope,$modal,p
 				
 		  
 			});
-			modalDelete.result.then(function (deleteproject) {
+			modalDelete.result.then(function (projectdelete) {
 			}, function () {
 			$log.info('Modal dismissed at: ' + new Date());
 			});   
@@ -45,16 +46,13 @@ app.controller('projectsController', function projectsController($scope,$modal,p
 	
 	var deleteModalController = function ($scope, $modalInstance,modalresolve,deleteID) {
 		$scope.projects = modalresolve;
-	$scope.projectdelete = modalresolve;
+		$scope.projectdelete = modalresolve;
 		var id = deleteID.getProperty();
 		
 		
 		$scope.selected = {
-		
 		project: $scope.projects[id]
 		};
-		
-	
 
 		$scope.remove = function () {
 			var id = deleteID.getProperty();
@@ -77,9 +75,6 @@ app.controller('projectsController', function projectsController($scope,$modal,p
 			$modalInstance.dismiss('cancel');
 		};
 	};
-	
-	
-	 
 	
 	$scope.edit = function (id) {
 	
@@ -134,8 +129,6 @@ var editModalController = function ($scope, $modalInstance,projects) {
 	
 
 };
-    
-
 	
  }); 
 
@@ -153,22 +146,28 @@ app.service('deleteID', function(){
             }
         };
     });
+	
+app.service('arrayID', function(){
+  var id= null;
 
- 
- 
+        return {
+            getProperty: function () {
+                
+				return id;
+            },
+            setProperty: function(value) {
+                id = value;
+				
+            }
+        };
+    });
  
 app.controller('CollapseDemoCtrl',function ($scope) {
   $scope.isCollapsed = false;
 });
 
-
-//This controller retrieves data from the projectsService and associates it with the $scope
-//The $scope is bound to the orders view
 app.controller('projectdetailController', function ($scope, projectsFactory) {
     $scope.projects = [];
-
-    //I like to have an init() for controllers that need to perform some initialization. Keeps things in
-    //one place...not required though especially in the simple example below
     init();
 
     function init() {
@@ -176,29 +175,26 @@ app.controller('projectdetailController', function ($scope, projectsFactory) {
     }
 });
 
-
-
 //This controller is a child controller that will inherit functionality from a parent
 //It's used to track the orderby parameter and ordersTotal for a Project. Put it here rather than duplicating 
 //setOrder and orderby across multiple controllers.
-app.controller('projectChildController', function ($scope) {
+app.controller('activitytableController', function activityController($scope,$modal,projectsFactory,$http,$resource,$log,arrayID,deleteID){
     $scope.orderby = 'id';
     $scope.reverse = false;
-    $scope.ordersTotal = 0.00;
-
+    $scope.projectTotal = 0.00;
+	
     init();
 
     function init() {
         //Calculate grand total
         //Handled at this level so we don't duplicate it across parent controllers
-        if ($scope.project && $scope.project.fabprocess) {
+        if ($scope.project && $scope.project.fabprocesses) {
             var total = 0.00;
-            for (var i = 0; i < $scope.project.fabprocess.length; i++) {
-                var costtotal = $scope.project.fabprocess[i].costperhour*$scope.project.fabprocess[i].duration;
-                
-                total += costtotal.orderTotal;
+            for (var i = 0; i < $scope.project.fabprocesses.length; i++) {
+                var costtotal = $scope.project.fabprocesses[i].costperhour*$scope.project.fabprocesses[i].duration;
+                total += costtotal.projectTotal;
             }
-            $scope.ordersTotal = total;
+            $scope.projectTotal = total;
         }
     }
 
@@ -210,4 +206,132 @@ app.controller('projectChildController', function ($scope) {
         $scope.orderby = orderby;
     };
 
+	$scope.delActivity = function (index,stepno){
+		
+		
+		var index =  index;
+		var stepno = stepno;
+		deleteID.setProperty(index);
+		arrayID.setProperty(stepno);
+		
+		var modalactivityDelete =   $modal.open({
+				templateUrl: '/views/activityDelete.html',
+				controller: deleteactivityModalController,
+				resolve: {
+						moduleDel: function () {
+						return $scope.projects[index].fabprocesses;
+						}
+				}
+				
+		  
+			});
+			modalactivityDelete.result.then(function (deleteactivity) {
+			}, function () {
+			$log.info('Modal dismissed at: ' + new Date());
+			});   
+	};
+	
+	
+	var deleteactivityModalController = function ($scope, $modalInstance,moduleDel,deleteID,arrayID) {
+		$scope.moduleDel = moduleDel;
+		$scope.activityDel = moduleDel;
+	
+		var id = deleteID.getProperty();
+		//var stepno = arrayID.getProperty();
+		var stepno = arrayID.getProperty();
+		
+		$scope.selected = {
+			activityDel: $scope.moduleDel[stepno]
+		};
+
+		$scope.remove = function () {
+			var id = deleteID.getProperty();
+			var stepno = arrayID.getProperty();
+			var API_URL = '/api/project/'+ id +'/fabprocesses';
+			$scope.moduleDel.splice(stepno, 1 ); 		
+			$modalInstance.close(	
+					$http({
+						method: 'DELETE',
+						url:API_URL,
+						data: { stepno: stepno } 
+					})
+					.success(function(){
+					})
+				);
+			};
+		
+		$scope.cancel = function () {
+			$modalInstance.dismiss('cancel');
+		};
+	};
+	
+	
+$scope.editActivity = function (index,stepno) {
+		
+		var index =  index;
+		var stepno = stepno;
+		deleteID.setProperty(index);
+		arrayID.setProperty(stepno);
+		
+		
+		
+		var modaleditActivity =   $modal.open({
+			templateUrl: '/views/activityEdit.html',
+			controller: editactivityModalController,
+			resolve: {
+						fabprocesses: function () {
+						return $scope.projects[index].fabprocesses[stepno];
+						}
+				}
+		});
+
+		modaleditActivity.result.then(function (projects) {
+		}, function () {
+		$log.info('Modal dismissed at: ' + new Date());
+		});
+  };
+
+
+var editactivityModalController = function ($scope, $modalInstance,fabprocesses,deleteID,arrayID) {
+	
+	var id = deleteID.getProperty();
+	var stepno = arrayID.getProperty();
+	
+	$scope.fabprocesses = fabprocesses;
+	$scope.activityEdit = fabprocesses;
+	
+	
+	$scope.selected = {
+		activityEdit: $scope.fabprocesses
+		};
+
+	$scope.okactivity = function () {
+		var API_URL = '/api/project/'+ id +'/fabprocesses';
+		$modalInstance.close(
+			  $http({
+						method: 'PUT',
+						url: API_URL,		
+						data: JSON.stringify({
+						stepno : stepno,
+						process : $scope.activityEdit.process,
+						duration: $scope.activityEdit.duration,
+						material: $scope.activityEdit.material,
+						costperhour: $scope.activityEdit.costperhour,
+						id: $scope.activityEdit.id
+						} ),
+						
+						headers: {'Content-Type': 'application/json'}
+					})
+					.success(function(){			   
+					})
+		);    
+	};
+	
+	$scope.cancelactivity = function () {
+    $modalInstance.dismiss('cancel');
+	};
+	
+
+};
+   	
 });
