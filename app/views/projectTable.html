@@ -36,9 +36,9 @@
                 {{ fabprocess.costperhour *(fabprocess.duration/60) | currency:"€" }}
             </td>
              <td>
-					<button title = "Delete activity" class="btn close cardClose" data-ng-click="delActivity(project.id,$index)"><i class ="icon-trash icon"></i></button>
+					<button title = "Delete activity" class="btn close cardClose" data-ng-click="delActivity(project.id,($index))"><i class ="icon-trash icon"></i></button>
 					
-					<button title = "Edit activity" class="btn close cardClose" data-ng-click="editActivity(project.id,$index)"><i class ="icon-pencil icon"></i></button>
+					<button title = "Edit activity" class="btn close cardClose" data-ng-click="editActivity(project.id,($index))"><i class ="icon-pencil icon"></i></button>
 					
             </td>
 
@@ -102,7 +102,7 @@
                 <br>
                 <button id="submitActivity" class="btn btn-primary" type="button" 
                     data-ng-disabled="!newActivity.id || !newActivity.process" || !newMaterial.currentstock" 
-                    data-ng-click="insertActivity()">Add Activity</button>
+                    data-ng-click="insertActivity(project.id)">Add Activity</button>
                
             </div>
             </div>

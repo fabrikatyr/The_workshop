@@ -22,6 +22,28 @@ app.controller('projectsController', function projectsController($scope,$modal,p
     $scope.projects = 	projectsFactory.query();
 	}
 	
+$scope.insertActivity = function (id){
+	alert($scope.newActivity.process);
+	var API_URL = '/api/project/'+ id +'/fabprocesses';
+	
+			  $http({
+						method: 'PUT',
+						url: API_URL,		
+						data: JSON.stringify({
+						tag : "add",
+						process : $scope.newActivity.process,
+						duration: $scope.newActivity.duration,
+						material: $scope.newActivity.material,
+						costperhour: $scope.newActivity.costperhour,
+						id: $scope.newActivity.id
+						} ),
+						
+						headers: {'Content-Type': 'application/json'}
+					  }).success(function(){
+            $scope.$parent.update();
+        });
+	}
+	
 	$scope.del = function (id){
 		
 		deleteID.setProperty(id);
@@ -210,7 +232,7 @@ app.controller('activitytableController', function activityController($scope,$mo
 		
 		
 		var index =  index;
-		var stepno = stepno;
+		var stepno = (stepno);
 		deleteID.setProperty(index);
 		arrayID.setProperty(stepno);
 		
@@ -235,9 +257,7 @@ app.controller('activitytableController', function activityController($scope,$mo
 	var deleteactivityModalController = function ($scope, $modalInstance,moduleDel,deleteID,arrayID) {
 		$scope.moduleDel = moduleDel;
 		$scope.activityDel = moduleDel;
-	
 		var id = deleteID.getProperty();
-		//var stepno = arrayID.getProperty();
 		var stepno = arrayID.getProperty();
 		
 		$scope.selected = {
@@ -269,7 +289,7 @@ app.controller('activitytableController', function activityController($scope,$mo
 $scope.editActivity = function (index,stepno) {
 		
 		var index =  index;
-		var stepno = stepno;
+		var stepno = (stepno);
 		deleteID.setProperty(index);
 		arrayID.setProperty(stepno);
 		
@@ -307,11 +327,13 @@ var editactivityModalController = function ($scope, $modalInstance,fabprocesses,
 
 	$scope.okactivity = function () {
 		var API_URL = '/api/project/'+ id +'/fabprocesses';
+		var stepno = arrayID.getProperty();	
 		$modalInstance.close(
 			  $http({
 						method: 'PUT',
 						url: API_URL,		
 						data: JSON.stringify({
+						tag : "edit",
 						stepno : stepno,
 						process : $scope.activityEdit.process,
 						duration: $scope.activityEdit.duration,
